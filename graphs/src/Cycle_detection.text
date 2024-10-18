@@ -1,0 +1,52 @@
+Sure, let's dry run this code together and make it interesting!
+
+Imagine you have a map of a city, where each location (node) is connected by roads (edges). Sometimes, these roads form a loop, where you can keep driving in circles without reaching a destination. We want to write a program that checks if there's any such loop in our map.
+
+Alright, let's dive into the code!
+
+### Initial Setup
+First, we need to initialize some things. We'll keep track of which locations we've visited (`vis[]`) and whether we're currently exploring a particular location (`rec[]`). We'll start at a specific location, which we'll call `curr`.
+
+```java
+public static boolean isCycle(ArrayList<Edge> graph[], boolean vis[], int curr, boolean rec[]) {
+    vis[curr] = true;  // Mark the current location as visited
+    rec[curr] = true;  // Mark the current location as being explored
+```
+
+### Exploring the Neighbors
+Now, let's explore the neighboring locations from our current location.
+
+```java
+    for (int i = 0; i < graph[curr].size(); i++) {
+        Edge e = graph[curr].get(i);  // Get the ith edge from the current location
+```
+
+### Checking for Loops
+For each neighboring location, we need to check if we've visited it before. If we have, and it's currently being explored (`rec[e.destination]`), then we've found a loop!
+
+```java
+        if (rec[e.destination]) {
+            return true;  // We found a loop!
+```
+
+### Exploring Unvisited Locations
+If we haven't visited a neighboring location (`!vis[e.destination]`), we'll recursively explore it.
+
+```java
+        } else if (!vis[e.destination]) {
+            if (isCycle(graph, vis, e.destination, rec)) {
+                return true;  // If a loop is found deeper down the exploration, return true
+            }
+```
+
+### Backtracking
+After exploring all neighbors and their paths, if we haven't found a loop, we mark the current location as no longer being explored.
+
+```java
+    rec[curr] = false;  // We're done exploring from this location
+```
+
+### Conclusion
+And that's it! The function recursively explores the map, checking for loops along the way. If it finds a loop, it returns `true`; otherwise, it returns `false`.
+
+So, if you imagine yourself as an explorer navigating through a city, marking your path and checking for loops as you go along, that's essentially what this program is doing!
